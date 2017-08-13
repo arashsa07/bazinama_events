@@ -2,7 +2,17 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
 
-from .models import User, State, City
+from .models import User, State, City, UserProfile
+
+
+class UserProfileAdminInline(admin.StackedInline):
+    model = UserProfile
+
+    def has_add_permission(self, request):
+        return False
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 class MyUserAdmin(UserAdmin):
@@ -21,6 +31,7 @@ class MyUserAdmin(UserAdmin):
     )
     list_display = ('username', 'phone_number', 'email', 'is_staff')
     search_fields = ('username', 'phone_number')
+    inlines = [UserProfileAdminInline, ]
 
 
 class StateAdmin(admin.ModelAdmin):

@@ -35,8 +35,8 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     # username = serializers.CharField(source='user.username', read_only=True)
-    first_name = serializers.CharField(source='user.first_name', required=False, allow_blank=True)
-    last_name = serializers.CharField(source='user.last_name', required=False, allow_blank=True)
+    # first_name = serializers.CharField(source='user.first_name', required=False, allow_blank=True)
+    # last_name = serializers.CharField(source='user.last_name', required=False, allow_blank=True)
     # gender = serializers.BooleanField(required=True)
     # state_name = serializers.SerializerMethodField()
     # city_name = serializers.SerializerMethodField()
@@ -70,20 +70,28 @@ class ProfileSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
-        user_data = validated_data.get('user')
+        request = self.context['request']
+        # user = request.user
+        validated_data['user'] = request.user
+        # user_data = validated_data.get('user')
+
         instance = super().create(validated_data)
-        instance.user.first_name = user_data.get('first_name', instance.user.first_name)
-        instance.user.last_name = user_data.get('last_name', instance.user.last_name)
-        instance.user.save(update_fields=['first_name', 'last_name'])
+        # instance.user.first_name = user_data.get('first_name', instance.user.first_name)
+        # instance.user.last_name = user_data.get('last_name', instance.user.last_name)
+        # instance.user.save(update_fields=['first_name', 'last_name'])
         return instance
 
     def update(self, instance, validated_data):
-        user_data = validated_data.pop('user', None)
+        request = self.context['request']
+        # user_data = validated_data.get('user', None)
+        # user = request.user
+        validated_data['user'] = request.user
+
         instance = super().update(instance, validated_data)
-        if user_data:
-            instance.user.first_name = user_data.get('first_name', instance.user.first_name)
-            instance.user.last_name = user_data.get('last_name', instance.user.last_name)
-            instance.user.save(update_fields=['first_name', 'last_name'])
+        # if user_data:
+        #     instance.user.first_name = user_data.get('first_name', instance.user.first_name)
+        #     instance.user.last_name = user_data.get('last_name', instance.user.last_name)
+        #     instance.user.save(update_fields=['first_name', 'last_name'])
         return instance
 
 

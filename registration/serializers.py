@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 
-from .models import UserProfile
+from .models import UserProfile, State, City
 
 
 User = get_user_model()
@@ -76,3 +76,20 @@ class ProfileSerializer(serializers.ModelSerializer):
             instance.user.last_name = user_data.get('last_name', instance.user.last_name)
             instance.user.save(update_fields=['first_name', 'last_name'])
         return instance
+
+
+class CitySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = City
+        fields = ('id', 'city_name')
+
+
+class StateSerializer(serializers.ModelSerializer):
+    city = serializers.SerializerMethodField()
+
+    class Meta:
+        model = State
+        fields = ('state_name', 'city')
+
+    def get_city(self, instance):
+        return CitySerializer(instance.city_set.filter(state=instance), many=True).data

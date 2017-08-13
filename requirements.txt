@@ -3,9 +3,13 @@
 # Django
 Django==1.11
 djangorestframework==3.6.3
-#django-cors-headers==2.0.0
+django-cors-headers
 mysqlclient==1.3.10
 Pillow==4.2.1
+coreapi-cli
+Markdown
+Pygments
+pytz
 
 
 # Authentication
@@ -14,4 +18,5 @@ djangorestframework-jwt==1.11.0
 
 # Third party
 requests==2.18.3
+ipython
 

@@ -16,6 +16,9 @@ User = get_user_model()
 
 
 class RegisterAPIView(generics.CreateAPIView):
+    """
+    Register user by phone number and send verification code to mobile.
+    """
     serializer_class = RegisterSerializer
     queryset = User.objects.all()
 
@@ -34,10 +37,15 @@ class RegisterAPIView(generics.CreateAPIView):
 
 
 class ProfileAPIView(generics.CreateAPIView, generics.RetrieveUpdateAPIView):
+    """
+    Create, update and return user profile.
+    Gender: female is False, male is True.
+    """
     serializer_class = ProfileSerializer
     authentication_classes = (JSONWebTokenAuthentication, )
     permission_classes = (IsAuthenticated, )
 
     def get_object(self):
-        instance = UserProfile.objects.select_related('user').get(user=self.request.user)
-        return instance
+        if self.request.user.has_profile:
+            return UserProfile.objects.select_related('user').get(user=self.request.user)
+        raise ValidationError({'detail': 'Profile is not set for this user.'})

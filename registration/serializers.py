@@ -34,13 +34,22 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class ProfileSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(source='user.username', read_only=True)
+    # username = serializers.CharField(source='user.username', read_only=True)
     first_name = serializers.CharField(source='user.first_name', required=False, allow_blank=True)
     last_name = serializers.CharField(source='user.last_name', required=False, allow_blank=True)
+    # gender = serializers.BooleanField(required=True)
+    # state_name = serializers.SerializerMethodField()
+    # city_name = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
         exclude = ('id', 'user')
+
+    # def get_state_name(self, instance):
+    #     return instance.city.state.state_name
+
+    # def get_city_name(self, instance):
+    #     return instance.city.city_name
 
     def validate_email(self, value):
         request = self.context['request']

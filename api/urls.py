@@ -5,6 +5,5 @@ from .views import StateAPIView
 
 
 urlpatterns = [
-    url(r'states/$', cache_page(60*60*6)(StateAPIView.as_view())),
+    url(r'states/$', cache_page(60*60*6)(StateAPIView.as_view()), name='states-cities'),
 ]
-

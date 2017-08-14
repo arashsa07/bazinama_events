@@ -16,6 +16,13 @@ pytz
 djangorestframework-jwt==1.11.0
 
 
+# Payment
+zeep
+pytz
+oauth2client
+pycrypto == 2.6.1
+
+
 # Third party
 requests==2.18.3
 ipython

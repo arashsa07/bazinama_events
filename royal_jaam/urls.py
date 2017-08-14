@@ -19,6 +19,7 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^auth/', include('registration.urls')),
+    url(r'^payment/', include('payments.urls')),
 
     url(r'^api/', include('api.urls')),
 

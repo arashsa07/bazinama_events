@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
 
     'registration',
+    'payments',
 
     'rest_framework',
     'rest_framework_docs',
@@ -145,6 +146,7 @@ CORS_ORIGIN_REGEX_WHITELIST = (
     'http://127.0.0.1',
     'http://127.0.0.1:8080',
     # 'http://172.16.100.178:8080',
+    'http://172.16.100.178:8080',
     )
 CORS_ALLOW_CREDENTIALS = True
 CORS_ALLOW_METHODS = (

@@ -2,6 +2,7 @@ from random import randint
 
 from django.template.loader import render_to_string
 from django.contrib.auth import get_user_model
+from django.utils.translation import gettext_lazy as _
 
 from rest_framework import generics
 from rest_framework.exceptions import ValidationError
@@ -33,7 +34,7 @@ class RegisterAPIView(generics.CreateAPIView):
         )
         sent_message = adp_send_sms(serializer.data['phone_number'], msg)
         if not sent_message:
-            raise ValidationError({'detail': 'Could not sent verification SMS'})
+            raise ValidationError({'detail': _('Could not sent verification SMS')})
 
 
 class ProfileAPIView(generics.CreateAPIView, generics.RetrieveUpdateAPIView):
@@ -48,4 +49,4 @@ class ProfileAPIView(generics.CreateAPIView, generics.RetrieveUpdateAPIView):
     def get_object(self):
         if self.request.user.has_profile:
             return UserProfile.objects.select_related('user').get(user=self.request.user)
-        raise ValidationError({'detail': 'Profile is not set for this user.'})
+        raise ValidationError({'detail': _('Profile is not set for this user.')})

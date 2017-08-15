@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'n03l%o_%bbw*uyek^b0br=tk2221h&)00cm6$p9*2@s!5h72(g'
-ALLOWED_HOSTS = ['event.bazinama.com', 'localhost']
+ALLOWED_HOSTS = ['bazinamaevents.vasapi.click', 'event.bazinama.com', 'localhost']
 
 
 # Application definition
@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'payments',
 
     'rest_framework',
-    'rest_framework_docs',
+#    'rest_framework_docs',
 
     'corsheaders',
 
@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'royal_jaam.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'royal_jaam',
+        'NAME': 'bazinama_events',
         'USER': DB_USER,
         'PASSWORD': DB_PASS,
         'HOST': DB_HOST,
@@ -143,6 +143,7 @@ JWT_AUTH = {
 
 # Cors Origin Settings
 CORS_ORIGIN_REGEX_WHITELIST = (
+    'http://event.bazinama.com',
     'http://127.0.0.1',
     'http://127.0.0.1:8080',
     # 'http://172.16.100.178:8080',

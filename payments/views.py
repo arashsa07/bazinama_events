@@ -102,4 +102,4 @@ class PaymentResultView(View):
             else:
                 payment_status = payment.paid_status
 
-        return redirect('/done/?status=%s' % payment_status)
+        return redirect('http://event.bazinama.com/done/?status=%s' % payment_status)

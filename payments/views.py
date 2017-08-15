@@ -1,7 +1,6 @@
 from django.core.urlresolvers import reverse
 from django.db import transaction
-from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
@@ -15,7 +14,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from .models import Payment, Gateway
-# from registration.models import User, UserProfile
 
 
 PAYMENT_PROJECT_NAME = 'royaljaam'
@@ -104,9 +102,4 @@ class PaymentResultView(View):
             else:
                 payment_status = payment.paid_status
 
-        response = {
-            'payment_status': payment_status,
-            'invoice_number': invoice_number
-        }
-
-        return JsonResponse(response)
+        return redirect('/done/?status=%s' % payment_status)

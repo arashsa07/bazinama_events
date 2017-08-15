@@ -5,7 +5,7 @@
 **/*.pyc
 .idea
 /SYMLINKS
-**/migrations/*
+#**/migrations/*
 #service/migrations/*
 
 # Created by .ignore support plugin (hsz.mobi)
@@ -98,4 +98,4 @@ ENV/
 .ropeproject
 
 .idea/
-/Reporting/local_settings.py
+#/Reporting/local_settings.py

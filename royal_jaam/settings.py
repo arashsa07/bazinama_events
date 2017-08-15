@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'payments',
 
     'rest_framework',
-#    'rest_framework_docs',
+    # 'rest_framework_docs',
 
     'corsheaders',
 

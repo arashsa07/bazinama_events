@@ -24,5 +24,5 @@ urlpatterns = [
     url(r'^api/', include('api.urls')),
 
     url(r'^admin/', admin.site.urls),
-#    url(r'^docs/', include('rest_framework_docs.urls')),
+    # url(r'^docs/', include('rest_framework_docs.urls')),
 ]

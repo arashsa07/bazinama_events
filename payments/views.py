@@ -18,6 +18,7 @@ from .models import Payment, Gateway
 
 PAYMENT_PROJECT_NAME = 'royaljaam'
 PAYMENT_AMOUNT = 2000  # 2000 toman
+PAYMENT_REDIRECT_BASE_URL = 'http://event.bazinama.com'
 
 
 def render_bank_page(request, invoice_id, request_url, merchant_id, amount, **kwargs):
@@ -102,4 +103,4 @@ class PaymentResultView(View):
             else:
                 payment_status = payment.paid_status
 
-        return redirect('http://event.bazinama.com/done/?status=%s' % payment_status)
+        return redirect('%s/done/?status=%s' % (PAYMENT_REDIRECT_BASE_URL, payment_status))

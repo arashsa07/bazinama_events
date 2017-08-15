@@ -38,15 +38,15 @@ class ProfileSerializer(serializers.ModelSerializer):
     # first_name = serializers.CharField(source='user.first_name', required=False, allow_blank=True)
     # last_name = serializers.CharField(source='user.last_name', required=False, allow_blank=True)
     # gender = serializers.BooleanField(required=True)
-    # state_name = serializers.SerializerMethodField()
+    state_id = serializers.SerializerMethodField()
     # city_name = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
         exclude = ('id', 'user')
 
-    # def get_state_name(self, instance):
-    #     return instance.city.state.state_name
+    def get_state_id(self, instance):
+        return instance.city.state.id
 
     # def get_city_name(self, instance):
     #     return instance.city.city_name
@@ -106,7 +106,7 @@ class StateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = State
-        fields = ('state_name', 'city')
+        fields = ('id', 'state_name', 'city')
 
     def get_city(self, instance):
         return CitySerializer(instance.city_set.filter(state=instance), many=True).data

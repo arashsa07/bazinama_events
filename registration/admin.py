@@ -5,8 +5,8 @@ from django.utils.translation import ugettext_lazy as _
 from .models import User, State, City, UserProfile
 
 
-class UserProfileAdminInline(admin.StackedInline):
-    model = UserProfile
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'nick_name', 'clash_id', 'cup_numbers', 'level', 'birthday', 'gender', 'city']
 
     def has_add_permission(self, request):
         return False
@@ -31,7 +31,6 @@ class MyUserAdmin(UserAdmin):
     )
     list_display = ('username', 'phone_number', 'email', 'is_staff')
     search_fields = ('username', 'phone_number')
-    inlines = [UserProfileAdminInline, ]
 
 
 class StateAdmin(admin.ModelAdmin):
@@ -45,6 +44,8 @@ class CityAdmin(admin.ModelAdmin):
     ordering = ['state', ]
 
 
+
 admin.site.register(User, MyUserAdmin)
+admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(State, StateAdmin)
 admin.site.register(City, CityAdmin)

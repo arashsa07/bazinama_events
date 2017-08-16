@@ -172,7 +172,7 @@ class City(models.Model):
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nick_name = models.CharField(_('nick_name'), max_length=150, blank=True)
-    avatar = models.ImageField(_('avatar'), blank=True)
+    avatar = models.ImageField(_('avatar'), blank=True, upload_to='profile_avatars/')
     birthday = models.DateField(_('birthday'))
     gender = models.BooleanField(_('gender'), help_text=_('female is False, male is True'))
     cup_numbers = models.PositiveIntegerField(_('cup numbers'))

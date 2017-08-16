@@ -103,4 +103,9 @@ class PaymentResultView(View):
             else:
                 payment_status = payment.paid_status
 
-        return redirect('%s/done/?status=%s' % (PAYMENT_REDIRECT_BASE_URL, payment_status))
+        if payment_status:
+            redirect_url = '%s/done' % PAYMENT_REDIRECT_BASE_URL
+        else:
+            redirect_url = '%s/failed' % PAYMENT_REDIRECT_BASE_URL
+
+        return redirect(redirect_url)

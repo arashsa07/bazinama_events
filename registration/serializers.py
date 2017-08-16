@@ -47,7 +47,7 @@ class ProfileSerializer(serializers.ModelSerializer):
         exclude = ('id', 'user')
 
     def get_is_paid(self, instance):
-        if instance.user.payment_set.all():
+        if instance.user.payment_set.filter(paid_status=True):
             return True
         return False
 

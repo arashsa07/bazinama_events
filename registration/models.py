@@ -179,6 +179,7 @@ class UserProfile(models.Model):
     level = models.PositiveSmallIntegerField(_('level'))
     city = models.ForeignKey(City, related_name='city')
     clash_id = models.CharField(_('clash id'), max_length=256)
+    email = models.EmailField(_('email address'), blank=True)
 
     class Meta:
         db_table = 'auth_profiles'

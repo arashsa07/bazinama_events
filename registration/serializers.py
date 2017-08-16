@@ -40,10 +40,16 @@ class ProfileSerializer(serializers.ModelSerializer):
     # gender = serializers.BooleanField(required=True)
     state_id = serializers.SerializerMethodField()
     # city_name = serializers.SerializerMethodField()
+    is_paid = serializers.SerializerMethodField()
 
     class Meta:
         model = UserProfile
         exclude = ('id', 'user')
+
+    def get_is_paid(self, instance):
+        if instance.user.payment_set.all():
+            return True
+        return False
 
     def get_state_id(self, instance):
         return instance.city.state.id

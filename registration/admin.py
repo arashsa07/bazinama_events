@@ -6,7 +6,11 @@ from .models import User, State, City, UserProfile
 
 
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'nick_name', 'clash_id', 'cup_numbers', 'level', 'birthday', 'gender', 'city']
+    list_display = ('nick_name', 'clash_id', 'cup_numbers', 'level', 'email', 'phone', 'birthday', 'gender', 'city')
+    readonly_fields = ('user', 'phone')
+
+    def phone(self, obj):
+        return obj.user.phone_number
 
     def has_add_permission(self, request):
         return False
@@ -42,7 +46,6 @@ class CityAdmin(admin.ModelAdmin):
     list_display = ['state', 'city_name']
     list_filter = ['state', ]
     ordering = ['state', ]
-
 
 
 admin.site.register(User, MyUserAdmin)

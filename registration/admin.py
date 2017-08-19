@@ -13,14 +13,17 @@ class UserProfileIsPaidListFilter(admin.SimpleListFilter):
     def lookups(self, request, model_admin):
         return (
             ('0', 'No'),
-            ('1', 'Yes')
+            ('1', 'Yes'),
+            ('2', 'No Payment')
         )
 
     def queryset(self, request, queryset):
         if self.value() == '0':
-            return queryset.annotate(paid_count=Count('user__payment')).filter(paid_count=0)
+            return queryset.filter(user__payment__paid_status=False).annotate(ps=Count('user__payment__paid_status')).filter(ps__gt=0).exclude(user__payment__paid_status=True)
         if self.value() == '1':
-            return queryset.annotate(paid_count=Count('user__payment')).filter(paid_count__gt=0)
+            return queryset.filter(user__payment__paid_status=True).annotate(ps=Count('user__payment__paid_status')).filter(ps__gt=0)
+        if self.value() == '2':
+            return queryset.annotate(ps=Count('user__payment__paid_status')).filter(ps=0)
 
 
 class UserProfileAdmin(admin.ModelAdmin):
@@ -30,8 +33,8 @@ class UserProfileAdmin(admin.ModelAdmin):
 
     def paid(self, obj):
         if obj.user.payment_set.filter(paid_status=True):
-            return '<img src = "/static/admin/img/icon-yes.svg" alt="True">'
-        return '<img src = "/static/admin/img/icon-no.svg" alt="False">'
+            return True
+        return False
 
     def phone(self, obj):
         return obj.user.phone_number
@@ -42,7 +45,7 @@ class UserProfileAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         return False
 
-    paid.allow_tags = True
+    paid.boolean = True
 
 
 class MyUserAdmin(UserAdmin):

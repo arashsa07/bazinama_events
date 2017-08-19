@@ -171,20 +171,23 @@ class City(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    nick_name = models.CharField(_('nick_name'), max_length=150, blank=True)
+    nick_name = models.CharField(_('name'), max_length=150, blank=True)
     avatar = models.ImageField(_('avatar'), blank=True, upload_to='profile_avatars/')
     birthday = models.DateField(_('birthday'))
     gender = models.BooleanField(_('gender'), help_text=_('female is False, male is True'))
-    cup_numbers = models.PositiveIntegerField(_('cup numbers'))
+    cup_numbers = models.PositiveIntegerField(_('cup'))
     level = models.PositiveSmallIntegerField(_('level'))
     city = models.ForeignKey(City, related_name='city')
     clash_id = models.CharField(_('clash id'), max_length=256)
-    email = models.EmailField(_('email address'), blank=True)
+    email = models.EmailField(_('email'), blank=True)
 
     class Meta:
         db_table = 'auth_profiles'
         verbose_name = _('profile')
         verbose_name_plural = _('profiles')
+
+    def __str__(self):
+        return '%s - %s' % (self.nick_name, self.user.phone_number)
 
     @property
     def get_first_name(self):

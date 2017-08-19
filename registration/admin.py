@@ -1,13 +1,37 @@
 from django.contrib import admin
+from django.db.models import Count
 from django.contrib.auth.admin import UserAdmin
 from django.utils.translation import ugettext_lazy as _
 
 from .models import User, State, City, UserProfile
 
 
+class UserProfileIsPaidListFilter(admin.SimpleListFilter):
+    title = 'Is Paid'
+    parameter_name = 'is_paid'
+
+    def lookups(self, request, model_admin):
+        return (
+            ('0', 'No'),
+            ('1', 'Yes')
+        )
+
+    def queryset(self, request, queryset):
+        if self.value() == '0':
+            return queryset.annotate(paid_count=Count('user__payment')).filter(paid_count=0)
+        if self.value() == '1':
+            return queryset.annotate(paid_count=Count('user__payment')).filter(paid_count__gt=0)
+
+
 class UserProfileAdmin(admin.ModelAdmin):
-    list_display = ('nick_name', 'clash_id', 'cup_numbers', 'level', 'email', 'phone', 'birthday', 'gender', 'city')
+    list_display = ('nick_name', 'clash_id', 'cup_numbers', 'level', 'email', 'phone', 'birthday', 'gender', 'city', 'paid')
+    list_filter = (UserProfileIsPaidListFilter, )
     readonly_fields = ('user', 'phone')
+
+    def paid(self, obj):
+        if obj.user.payment_set.filter(paid_status=True):
+            return '<img src = "/static/admin/img/icon-yes.svg" alt="True">'
+        return '<img src = "/static/admin/img/icon-no.svg" alt="False">'
 
     def phone(self, obj):
         return obj.user.phone_number
@@ -17,6 +41,8 @@ class UserProfileAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+    paid.allow_tags = True
 
 
 class MyUserAdmin(UserAdmin):

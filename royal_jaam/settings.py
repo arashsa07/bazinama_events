@@ -22,7 +22,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'n03l%o_%bbw*uyek^b0br=tk2221h&)00cm6$p9*2@s!5h72(g'
-ALLOWED_HOSTS = ['bazinamaevents.vasapi.click', 'event.bazinama.com', 'localhost']
+ALLOWED_HOSTS = ['bazinamaevents.vasapi.click', 'event.bazinama.com', 'localhost', '172.16.100.38']
 
 
 # Application definition
@@ -140,6 +140,13 @@ JWT_AUTH = {
     'JWT_EXPIRATION_DELTA': datetime.timedelta(days=100),
 }
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (),
+}
+
+REST_FRAMEWORK_DOCS = {
+    'HIDE_DOCS': not DEVEL
+}
 
 # Cors Origin Settings
 CORS_ORIGIN_REGEX_WHITELIST = (

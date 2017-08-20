@@ -5,6 +5,7 @@ from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import View
+from django.template.loader import render_to_string
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -14,6 +15,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from .models import Payment, Gateway
+from utils.send_message import adp_send_sms
 
 
 PAYMENT_PROJECT_NAME = 'royaljaam'
@@ -104,6 +106,8 @@ class PaymentResultView(View):
                 payment_status = payment.paid_status
 
         if payment_status:
+            msg = render_to_string('success_payment.txt')
+            sent_message = adp_send_sms(payment.user.phone_number, msg)
             redirect_url = '%s/done' % PAYMENT_REDIRECT_BASE_URL
         else:
             redirect_url = '%s/failed' % PAYMENT_REDIRECT_BASE_URL

@@ -16,8 +16,8 @@ class Command(BaseCommand):
 
         msg = render_to_string('unpaid_users.txt')
 
-        one_day_before = timezone.now().date() - timezone.timedelta(days=1)
-        two_days_before = timezone.now().date() - timezone.timedelta(days=2)
+        one_day_before = timezone.now() - timezone.timedelta(days=1)
+        two_days_before = timezone.now() - timezone.timedelta(days=2)
 
         users = User.objects.filter(
             date_joined__lt=one_day_before,

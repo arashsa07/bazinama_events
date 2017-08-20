@@ -81,7 +81,10 @@ class ProfileSerializer(serializers.ModelSerializer):
         validated_data['user'] = request.user
         # user_data = validated_data.get('user')
 
-        instance = super().create(validated_data)
+        try:
+            instance = super().create(validated_data)
+        except:
+            raise serializers.ValidationError(_('User with this Phone Number already exists.'))
         # instance.user.first_name = user_data.get('first_name', instance.user.first_name)
         # instance.user.last_name = user_data.get('last_name', instance.user.last_name)
         # instance.user.save(update_fields=['first_name', 'last_name'])

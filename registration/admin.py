@@ -29,7 +29,7 @@ class UserProfileIsPaidListFilter(admin.SimpleListFilter):
 class UserProfileAdmin(admin.ModelAdmin):
     list_display = ('nick_name', 'clash_id', 'cup_numbers', 'level', 'email', 'phone', 'birthday', 'gender', 'city', 'paid')
     list_filter = (UserProfileIsPaidListFilter, )
-    readonly_fields = ('user', 'phone')
+    readonly_fields = ('user', 'phone', 'clash_info', 'clash_info_updated_time')
 
     def paid(self, obj):
         if obj.user.payment_set.filter(paid_status=True):

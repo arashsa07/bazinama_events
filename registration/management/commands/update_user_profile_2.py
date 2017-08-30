@@ -21,9 +21,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for profile in UserProfile.objects.all():
-            if profile.user.payment_set.filter(paid_status=True).count() == 0:
-                continue
-            if profile.clash_info_updated_time and profile.clash_info_updated_time > timezone.now() - timezone.timedelta(hours=1):
+            # if profile.user.payment_set.filter(paid_status=True).count() == 0:
+            #     continue
+            if profile.clash_info_updated_time and \
+                            profile.clash_info_updated_time > timezone.now() - timezone.timedelta(hours=1):
                 continue
 
             print(profile.user.phone_number, profile.clash_id, profile.nick_name, profile.user.id)

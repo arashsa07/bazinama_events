@@ -15,9 +15,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         for profile in UserProfile.objects.all():
-            if profile.user.payment_set.filter(paid_status=True).count() == 0:
-                continue
-            if profile.clash_info_updated_time and profile.clash_info_updated_time > timezone.now() - timezone.timedelta(hours=1):
+            # if profile.user.payment_set.filter(paid_status=True).count() == 0:
+            #     continue
+            if profile.clash_info_updated_time and \
+                            profile.clash_info_updated_time > timezone.now() - timezone.timedelta(hours=1):
                 continue
 
             print(profile.user.phone_number, profile.clash_id, profile.nick_name, profile.user.id)
@@ -30,19 +31,19 @@ class Command(BaseCommand):
             except Exception as e:
                 print('Error: %s' % str(e))
                 profile.clash_info = 'ERROR: %s' % str(e)
+                profile.save()
             else:
                 if result['userinfo']['s1'] and result['userinfo']['livello']:
                     profile.cup_numbers = int(result['userinfo']['s1'])
                     profile.level = int(result['userinfo']['livello'])
                     profile.clash_info = result
                     profile.clash_info_updated_time = timezone.now()
+                    profile.save()
 
                     cup_numbers = int(result['userinfo']['s1']) if result['userinfo']['s1'] else 0
                     level = int(result['userinfo']['livello']) if result['userinfo']['livello'] else 0
                     print('level: %s ---> %s' % (profile.level, level))
                     print('cups: %s ---> %s' % (profile.cup_numbers, cup_numbers))
-
-            profile.save()
 
             print('-' * 80)
 

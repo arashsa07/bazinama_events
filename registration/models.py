@@ -180,6 +180,8 @@ class UserProfile(models.Model):
     city = models.ForeignKey(City, related_name='city')
     clash_id = models.CharField(_('clash id'), max_length=256)
     email = models.EmailField(_('email'), blank=True)
+    clash_info = models.TextField(blank=True)
+    clash_info_updated_time = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         db_table = 'auth_profiles'

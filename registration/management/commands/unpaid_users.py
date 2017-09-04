@@ -19,12 +19,25 @@ class Command(BaseCommand):
         one_day_before = timezone.now() - timezone.timedelta(days=1)
         two_days_before = timezone.now() - timezone.timedelta(days=2)
 
+        # WHY??
         users = User.objects.filter(
             date_joined__lt=one_day_before,
             date_joined__gte=two_days_before
         ).exclude(
             phone_number=None
         )
+
+        """
+        users = User.objects.filter(
+            date_joined__lt=one_day_before,
+            date_joined__gte=two_days_before,
+            phone_number__isnull=False
+        )
+
+        users = User.objects.filter(
+            phone_number__isnull=False
+        )
+        """
 
         for user in users:
             if user.has_profile and not user.payment_set.filter(paid_status=True):

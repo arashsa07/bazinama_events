@@ -19,7 +19,7 @@ from utils.send_message import adp_send_sms
 
 
 PAYMENT_PROJECT_NAME = 'royaljaam'
-PAYMENT_AMOUNT = 2000  # 2000 toman
+PAYMENT_AMOUNT = 1000  # 2000 toman
 PAYMENT_REDIRECT_BASE_URL = 'http://event.bazinama.com'
 
 

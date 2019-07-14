@@ -22,7 +22,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'n03l%o_%bbw*uyek^b0br=tk2221h&)00cm6$p9*2@s!5h72(g'
-ALLOWED_HOSTS = ['bazinamaevents.vasapi.click', 'event.bazinama.com', 'localhost', '172.16.100.38']
+#ALLOWED_HOSTS = ['bazinamaevents.vasapi.click', 'event.bazinama.com', 'localhost', '172.16.100.38']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition

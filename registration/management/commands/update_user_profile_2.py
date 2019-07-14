@@ -20,27 +20,39 @@ class Command(BaseCommand):
     help = 'Update profile of user (version 2)'
 
     def handle(self, *args, **options):
+
+        counter_total = 0
+        counter_update = 0
+
+        print(str(timezone.now()))
+
         for profile in UserProfile.objects.all():
-            # if profile.user.payment_set.filter(paid_status=True).count() == 0:
-            #     continue
-            if profile.clash_info_updated_time and \
-                            profile.clash_info_updated_time > timezone.now() - timezone.timedelta(hours=1):
+            if profile.user.payment_set.filter(paid_status=True).count() == 0:
+                continue
+#            if profile.clash_info_updated_time and \
+#                            profile.clash_info_updated_time > timezone.now() - timezone.timedelta(hours=6):
+#                continue
+            if profile.clash_info_updated_time:
+                print(profile.user.phone_number, profile.clash_id, profile.nick_name, profile.user.id)
+                print('updated before')
+                print('-' * 80)
                 continue
 
             print(profile.user.phone_number, profile.clash_id, profile.nick_name, profile.user.id)
 
             refresh_url = REFRESH_URL % profile.clash_id
             url = BASE_URL % profile.clash_id
+            counter_total += 1
 
-            try:
-                refresh_response = requests.get(url=refresh_url, timeout=20)
-                refresh_result = refresh_response.json()
-            except Exception as e:
-                print('Refresh Error: %s' % str(e))
-                sleep(10)
-            else:
-                if refresh_result['success']:
-                    sleep(refresh_result['secondsToUpdate'] + 10)
+            #try:
+            #    refresh_response = requests.get(url=refresh_url, timeout=20)
+            #    refresh_result = refresh_response.json()
+            #except Exception as e:
+            #    print('Refresh Error: %s' % str(e))
+            #    sleep(10)
+            #else:
+            #    if refresh_result['success']:
+            #        sleep(refresh_result['secondsToUpdate'] + 10)
 
             try:
                 response = requests.get(url=url, timeout=20)
@@ -61,6 +73,7 @@ class Command(BaseCommand):
                 profile.level = level
                 profile.clash_info = result
                 profile.clash_info_updated_time = timezone.now()
+                counter_update += 1
 
                 print('level: %s ---> %s' % (profile.level, level))
                 print('cups: %s ---> %s' % (profile.cup_numbers, cup_numbers))
@@ -71,6 +84,10 @@ class Command(BaseCommand):
 
             profile.save()
             print('-' * 80)
+
+        print()
+        print('total:', counter_total)
+        print('update:', counter_update)
 
 
 sample_result = {
